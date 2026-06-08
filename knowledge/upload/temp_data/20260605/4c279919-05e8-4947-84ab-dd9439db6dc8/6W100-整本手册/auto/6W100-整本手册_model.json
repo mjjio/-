@@ -1,0 +1,1979 @@
+[
+    {
+        "layout_dets": [
+            {
+                "cls_id": 13,
+                "label": "header_image",
+                "score": 0.6327,
+                "bbox": [
+                    1238,
+                    285,
+                    1490,
+                    361
+                ],
+                "index": 1
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.6801,
+                "bbox": [
+                    806,
+                    806,
+                    1488,
+                    872
+                ],
+                "index": 2
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8344,
+                "bbox": [
+                    1246,
+                    925,
+                    1490,
+                    990
+                ],
+                "index": 3
+            },
+            {
+                "cls_id": 8,
+                "label": "footer",
+                "score": 0.9026,
+                "bbox": [
+                    148,
+                    1936,
+                    495,
+                    2021
+                ],
+                "index": 4
+            },
+            {
+                "cls_id": 8,
+                "label": "footer",
+                "score": 0.8164,
+                "bbox": [
+                    149,
+                    2069,
+                    487,
+                    2105
+                ],
+                "index": 5
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    1236,
+                    282,
+                    1491,
+                    367
+                ],
+                "score": 0.998,
+                "text": "H3C"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    1253,
+                    921,
+                    1486,
+                    993
+                ],
+                "score": 0.807,
+                "text": "用戶手冊"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    810,
+                    804,
+                    1486,
+                    874
+                ],
+                "score": 0.96,
+                "text": "H3C LA2608 室内无线网关"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    154,
+                    1937,
+                    492,
+                    1971
+                ],
+                "score": 1.0,
+                "text": "杭州华三通信技术有限公司"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    155,
+                    1986,
+                    440,
+                    2018
+                ],
+                "score": 1.0,
+                "text": "http://www.h3c.com.cn"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    156,
+                    2072,
+                    483,
+                    2103
+                ],
+                "score": 0.999,
+                "text": "资料版本：6W100-20140227"
+            }
+        ],
+        "page_info": {
+            "page_no": 0,
+            "width": 1654,
+            "height": 2339
+        }
+    },
+    {
+        "layout_dets": [
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9046,
+                "bbox": [
+                    235,
+                    183,
+                    1324,
+                    222
+                ],
+                "index": 1
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9473,
+                "bbox": [
+                    235,
+                    236,
+                    1501,
+                    319
+                ],
+                "index": 2
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9369,
+                "bbox": [
+                    233,
+                    346,
+                    1503,
+                    591
+                ],
+                "index": 3
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9735,
+                "bbox": [
+                    235,
+                    605,
+                    1504,
+                    774
+                ],
+                "index": 4
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    238,
+                    180,
+                    1326,
+                    222
+                ],
+                "score": 0.979,
+                "text": "Copyright © 2014 杭州华三通信技术有限公司及其许可者版权所有，保留一切权利。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    238,
+                    1498,
+                    272
+                ],
+                "score": 1.0,
+                "text": "未经本公司书面许可，任何单位和个人不得擅自摘抄、复制本书内容的部分或全部，并不得以任何"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    239,
+                    279,
+                    380,
+                    318
+                ],
+                "score": 1.0,
+                "text": "形式传播。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    239,
+                    372,
+                    551,
+                    410
+                ],
+                "score": 0.998,
+                "text": "H3C、H3C、Aolynk、"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    566,
+                    359,
+                    814,
+                    414
+                ],
+                "score": 0.798,
+                "text": "CAolynk、H³Care、"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    927,
+                    370,
+                    1045,
+                    410
+                ],
+                "score": 0.988,
+                "text": "TOPG、"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    1052,
+                    334,
+                    1500,
+                    413
+                ],
+                "score": 0.728,
+                "text": "OPG，IRF、NetPilt Neocean,"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    239,
+                    420,
+                    1487,
+                    458
+                ],
+                "score": 0.995,
+                "text": "NeoVTL、SecPro、SecPoint、SecEngine、SecPath、Comware、Secware、Storware、NQA、"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    237,
+                    458,
+                    1502,
+                    503
+                ],
+                "score": 0.99,
+                "text": "VVG、V²G、V\"G、PSPT、XGbus、N-Bus、TiGem、InnoVision、HUASAN、华三均为杭州华三"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    240,
+                    506,
+                    1502,
+                    544
+                ],
+                "score": 1.0,
+                "text": "通信技术有限公司的商标。对于本手册中出现的其它公司的商标、产品标识及商品名称，由各自权"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    237,
+                    546,
+                    382,
+                    590
+                ],
+                "score": 1.0,
+                "text": "利人拥有。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    844,
+                    355,
+                    893,
+                    390
+                ],
+                "score": 0.801,
+                "text": "Ieare"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    608,
+                    1498,
+                    639
+                ],
+                "score": 0.999,
+                "text": "由于产品版本升级或其他原因，本手册内容有可能变更。H3C保留在没有任何通知或者提示的情况"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    247,
+                    651,
+                    1498,
+                    682
+                ],
+                "score": 0.999,
+                "text": "下对本手册的内容进行修改的权利。本手册仅作为使用指导，H3C尽全力在本手册中提供准确的信"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    695,
+                    1496,
+                    726
+                ],
+                "score": 0.999,
+                "text": "息，但是H3C并不确保手册内容完全没有错误，本手册中的所有陈述、信息和建议也不构成任何"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    242,
+                    736,
+                    497,
+                    772
+                ],
+                "score": 0.999,
+                "text": "明示或暗示的担保。"
+            }
+        ],
+        "page_info": {
+            "page_no": 1,
+            "width": 1654,
+            "height": 2339
+        }
+    },
+    {
+        "layout_dets": [
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.9358,
+                "bbox": [
+                    765,
+                    188,
+                    893,
+                    245
+                ],
+                "index": 1
+            },
+            {
+                "cls_id": 4,
+                "label": "content",
+                "score": 0.9828,
+                "bbox": [
+                    153,
+                    299,
+                    1494,
+                    600
+                ],
+                "index": 2
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.7932,
+                "bbox": [
+                    819,
+                    2221,
+                    834,
+                    2246
+                ],
+                "index": 3
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    757,
+                    184,
+                    900,
+                    252
+                ],
+                "score": 1.0,
+                "text": "目录"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    155,
+                    303,
+                    650,
+                    338
+                ],
+                "score": 0.965,
+                "text": "1 H3C LA2608 室内无线网关用户手册"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    210,
+                    353,
+                    348,
+                    394
+                ],
+                "score": 0.988,
+                "text": "1.1概述…"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    213,
+                    408,
+                    646,
+                    442
+                ],
+                "score": 0.971,
+                "text": "1.2 配置LA2608 与无线控制器互通"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    272,
+                    461,
+                    503,
+                    495
+                ],
+                "score": 0.998,
+                "text": "1.2.1配置LA2608"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    1472,
+                    467,
+                    1491,
+                    485
+                ],
+                "score": 0.991,
+                "text": "1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    272,
+                    512,
+                    627,
+                    546
+                ],
+                "score": 0.988,
+                "text": "1.2.2 配置运营商无线控制器"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    270,
+                    562,
+                    785,
+                    601
+                ],
+                "score": 0.988,
+                "text": "1.2.3 验证LA2608 与无线控制器是否连通"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    817,
+                    2221,
+                    836,
+                    2248
+                ],
+                "score": 0.955,
+                "text": "i"
+            }
+        ],
+        "page_info": {
+            "page_no": 2,
+            "width": 1654,
+            "height": 2339
+        }
+    },
+    {
+        "layout_dets": [
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.9494,
+                "bbox": [
+                    153,
+                    144,
+                    1016,
+                    201
+                ],
+                "index": 1
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.9478,
+                "bbox": [
+                    153,
+                    240,
+                    327,
+                    290
+                ],
+                "index": 2
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9712,
+                "bbox": [
+                    233,
+                    327,
+                    1498,
+                    413
+                ],
+                "index": 3
+            },
+            {
+                "cls_id": 14,
+                "label": "image",
+                "score": 0.8746,
+                "bbox": [
+                    241,
+                    444,
+                    310,
+                    500
+                ],
+                "index": 4
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.6307,
+                "bbox": [
+                    312,
+                    462,
+                    375,
+                    502
+                ],
+                "index": 5
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9376,
+                "bbox": [
+                    237,
+                    526,
+                    935,
+                    565
+                ],
+                "index": 6
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.9594,
+                "bbox": [
+                    152,
+                    663,
+                    802,
+                    711
+                ],
+                "index": 7
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9713,
+                "bbox": [
+                    234,
+                    750,
+                    1499,
+                    835
+                ],
+                "index": 8
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.6303,
+                "bbox": [
+                    236,
+                    849,
+                    716,
+                    888
+                ],
+                "index": 9
+            },
+            {
+                "cls_id": 14,
+                "label": "image",
+                "score": 0.9734,
+                "bbox": [
+                    247,
+                    917,
+                    1337,
+                    1363
+                ],
+                "index": 10
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.9439,
+                "bbox": [
+                    153,
+                    1467,
+                    437,
+                    1508
+                ],
+                "index": 11
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.8444,
+                "bbox": [
+                    237,
+                    1544,
+                    728,
+                    1583
+                ],
+                "index": 12
+            },
+            {
+                "cls_id": 1,
+                "label": "algorithm",
+                "score": 0.8475,
+                "bbox": [
+                    238,
+                    1599,
+                    692,
+                    1719
+                ],
+                "index": 13
+            },
+            {
+                "cls_id": 14,
+                "label": "image",
+                "score": 0.9061,
+                "bbox": [
+                    242,
+                    1749,
+                    312,
+                    1806
+                ],
+                "index": 14
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9701,
+                "bbox": [
+                    235,
+                    1830,
+                    1498,
+                    1913
+                ],
+                "index": 15
+            },
+            {
+                "cls_id": 1,
+                "label": "algorithm",
+                "score": 0.9549,
+                "bbox": [
+                    241,
+                    1989,
+                    1072,
+                    2179
+                ],
+                "index": 16
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.843,
+                "bbox": [
+                    835,
+                    2220,
+                    856,
+                    2247
+                ],
+                "index": 17
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    156,
+                    1469,
+                    435,
+                    1504
+                ],
+                "score": 0.999,
+                "text": "1.2.1配置LA2608"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    528,
+                    935,
+                    562
+                ],
+                "score": 0.999,
+                "text": "目前，LA2608只支持与H3C公司的无线控制器互通。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    242,
+                    331,
+                    1497,
+                    364
+                ],
+                "score": 0.999,
+                "text": "H3CLA2608-GM/GU室内无线网关（以下简称LA2608）可以为用户提供无线服务，为了实现对"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    375,
+                    1139,
+                    407
+                ],
+                "score": 0.982,
+                "text": "设备的管理，LA2608 需要通过3G/4G 网络连接到运营商无线控制器。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    752,
+                    1497,
+                    786
+                ],
+                "score": 0.999,
+                "text": "如图1所示，LA2608安装了SIM卡，通过3G/4G网络连接到运营商无线控制器，并向用户提供"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    796,
+                    1409,
+                    829
+                ],
+                "score": 0.999,
+                "text": "无线服务。关于LA2608的安装方法，请参见“H3CLA2608室内无线网关快速安装指南”。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    1832,
+                    1495,
+                    1866
+                ],
+                "score": 0.993,
+                "text": "dialer number命令用来配置发起呼叫的拨号串，不同运营商的拨号串不同，请用户在配置前向网"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    242,
+                    1876,
+                    668,
+                    1909
+                ],
+                "score": 0.995,
+                "text": "络运营商获取发起呼叫的拨号串。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    835,
+                    2220,
+                    858,
+                    2250
+                ],
+                "score": 1.0,
+                "text": "1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    149,
+                    137,
+                    1016,
+                    205
+                ],
+                "score": 0.956,
+                "text": "1H3C LA2608 室内无线网关用户手册"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    149,
+                    239,
+                    330,
+                    291
+                ],
+                "score": 0.999,
+                "text": "1.1概述"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    306,
+                    461,
+                    379,
+                    507
+                ],
+                "score": 1.0,
+                "text": "说明"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    156,
+                    664,
+                    800,
+                    708
+                ],
+                "score": 0.996,
+                "text": "1.2配置LA2608与无线控制器互通"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    853,
+                    712,
+                    884
+                ],
+                "score": 0.956,
+                "text": "图1配置 LA2608 与无线控制器互通"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    238,
+                    1545,
+                    728,
+                    1586
+                ],
+                "score": 0.969,
+                "text": "(1）配置拨号访问组的拨号控制列表"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    242,
+                    1600,
+                    517,
+                    1631
+                ],
+                "score": 0.997,
+                "text": "<LA2608>system-view"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    1639,
+                    687,
+                    1671
+                ],
+                "score": 0.967,
+                "text": "[LA2608]dialer-rule 1 ip permit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    238,
+                    1678,
+                    513,
+                    1719
+                ],
+                "score": 0.971,
+                "text": "(2）配置DCC拨号"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1993,
+                    784,
+                    2021
+                ],
+                "score": 0.988,
+                "text": "[LA2608]interface Cellular-Ethernet2/0"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    2032,
+                    1070,
+                    2060
+                ],
+                "score": 0.986,
+                "text": "[LA2608-Cellular-Ethernet2/0]ip address cellular-allocated"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    246,
+                    2073,
+                    969,
+                    2098
+                ],
+                "score": 0.992,
+                "text": "[LA2608-Cellular-Ethernet2/0]dialer enable-circular"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    2110,
+                    858,
+                    2138
+                ],
+                "score": 0.984,
+                "text": "[LA2608-Cellular-Ethernet2/0]dialer-group 1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    2148,
+                    927,
+                    2175
+                ],
+                "score": 0.985,
+                "text": "[LA2608-Cellular-Ethernet2/0]dialer timer idle 0"
+            }
+        ],
+        "page_info": {
+            "page_no": 3,
+            "width": 1654,
+            "height": 2339
+        }
+    },
+    {
+        "layout_dets": [
+            {
+                "cls_id": 1,
+                "label": "algorithm",
+                "score": 0.9313,
+                "bbox": [
+                    237,
+                    120,
+                    1102,
+                    558
+                ],
+                "index": 1
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.9495,
+                "bbox": [
+                    153,
+                    583,
+                    586,
+                    626
+                ],
+                "index": 2
+            },
+            {
+                "cls_id": 14,
+                "label": "image",
+                "score": 0.8959,
+                "bbox": [
+                    242,
+                    679,
+                    312,
+                    736
+                ],
+                "index": 3
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.5038,
+                "bbox": [
+                    314,
+                    699,
+                    377,
+                    737
+                ],
+                "index": 4
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9205,
+                "bbox": [
+                    237,
+                    760,
+                    929,
+                    799
+                ],
+                "index": 5
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.6142,
+                "bbox": [
+                    238,
+                    876,
+                    520,
+                    916
+                ],
+                "index": 6
+            },
+            {
+                "cls_id": 1,
+                "label": "algorithm",
+                "score": 0.9236,
+                "bbox": [
+                    239,
+                    897,
+                    1060,
+                    2204
+                ],
+                "index": 7
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.8651,
+                "bbox": [
+                    835,
+                    2220,
+                    856,
+                    2246
+                ],
+                "index": 8
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    236,
+                    875,
+                    522,
+                    920
+                ],
+                "score": 0.959,
+                "text": "(1）创建业务VLAN"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    241,
+                    760,
+                    930,
+                    798
+                ],
+                "score": 0.999,
+                "text": "如下配置仅供参考，运营商可根据实际情况进行调整。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    833,
+                    2218,
+                    859,
+                    2256
+                ],
+                "score": 0.997,
+                "text": "2"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    308,
+                    696,
+                    381,
+                    742
+                ],
+                "score": 1.0,
+                "text": "说明"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    123,
+                    985,
+                    152
+                ],
+                "score": 0.986,
+                "text": "[LA2608-Cellular-Ethernet2/0]dialer timer autodial 5"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    162,
+                    1040,
+                    192
+                ],
+                "score": 0.988,
+                "text": "[LA2608-Cellular-Ethernet2/0]dialer number *99# autodial"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    201,
+                    830,
+                    231
+                ],
+                "score": 0.99,
+                "text": "[LA2608-Cellular-Ethernet2/0]nat outbound"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    239,
+                    715,
+                    269
+                ],
+                "score": 0.992,
+                "text": "[LA2608-Cellular-Ethernet2/0]quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    238,
+                    279,
+                    570,
+                    315
+                ],
+                "score": 0.937,
+                "text": "(3）配置 DNS解析功能"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    335,
+                    515,
+                    361
+                ],
+                "score": 0.981,
+                "text": "[LA2608]dns resolve"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    237,
+                    372,
+                    494,
+                    409
+                ],
+                "score": 0.944,
+                "text": "(4）配置静态路由"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    428,
+                    1097,
+                    455
+                ],
+                "score": 0.974,
+                "text": "[LA2608]ip route-static 0.0.0.0 0.0.0.0 Cellular-Ethernet2/0"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    238,
+                    465,
+                    741,
+                    501
+                ],
+                "score": 0.95,
+                "text": "(5）指定运营商无线控制器的 IP 地址"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    521,
+                    714,
+                    550
+                ],
+                "score": 0.968,
+                "text": "[LA2608] wlan ac ip 60.191.99.143"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    157,
+                    586,
+                    584,
+                    621
+                ],
+                "score": 0.999,
+                "text": "1.2.2配置运营商无线控制器"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    234,
+                    888,
+                    519,
+                    917
+                ],
+                "score": 0.569,
+                "text": "(）创业分VLI"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    240,
+                    935,
+                    462,
+                    963
+                ],
+                "score": 0.995,
+                "text": "<AC>system-view"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    241,
+                    970,
+                    394,
+                    1002
+                ],
+                "score": 0.939,
+                "text": "[AC]vlan 2"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    241,
+                    1010,
+                    461,
+                    1042
+                ],
+                "score": 0.984,
+                "text": "[AC-vlan2] quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    237,
+                    1046,
+                    835,
+                    1092
+                ],
+                "score": 0.944,
+                "text": "(2）创建 WLAN-ESS 接口并加入业务 VLAN"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    1104,
+                    588,
+                    1132
+                ],
+                "score": 0.945,
+                "text": "[AC]interface wLAN-Ess 1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1145,
+                    702,
+                    1173
+                ],
+                "score": 0.949,
+                "text": "[AC-wLAN-Ess1]port access vlan 2"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    1184,
+                    504,
+                    1212
+                ],
+                "score": 0.924,
+                "text": "[AC-wLAN-ESS1]quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    238,
+                    1220,
+                    641,
+                    1262
+                ],
+                "score": 0.985,
+                "text": "(3）配置明文方式的服务模板"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1278,
+                    714,
+                    1306
+                ],
+                "score": 0.991,
+                "text": "[AC]wlan service-template 1 clear"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1316,
+                    618,
+                    1344
+                ],
+                "score": 0.966,
+                "text": "[AC-wlan-st-1]ssid ssidh3c"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1356,
+                    660,
+                    1384
+                ],
+                "score": 0.937,
+                "text": "[AC-wlan-st-1]bind wLAN-ESS 1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    246,
+                    1394,
+                    773,
+                    1422
+                ],
+                "score": 0.985,
+                "text": "[AC-wlan-st-1]service-template enable"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    251,
+                    1429,
+                    545,
+                    1463
+                ],
+                "score": 0.981,
+                "text": "Please wait... Done."
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1472,
+                    504,
+                    1500
+                ],
+                "score": 0.986,
+                "text": "[AC-wlan-st-1]quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    237,
+                    1507,
+                    549,
+                    1545
+                ],
+                "score": 0.958,
+                "text": "(4）开启自动AP功能"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    1564,
+                    575,
+                    1596
+                ],
+                "score": 0.958,
+                "text": "[AC]wlan auto-ap enable"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    241,
+                    1602,
+                    730,
+                    1633
+                ],
+                "score": 0.962,
+                "text": "[AC]wlan ap 2608 model LA2608 id 1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    242,
+                    1640,
+                    689,
+                    1674
+                ],
+                "score": 0.991,
+                "text": "[AC-wlan-ap-2608]serial-id auto"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    246,
+                    1683,
+                    588,
+                    1711
+                ],
+                "score": 0.981,
+                "text": "[AC-wlan-ap-2608]radio 1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    241,
+                    1720,
+                    859,
+                    1750
+                ],
+                "score": 0.99,
+                "text": "[AC-wlan-ap-2608-radio-1]service-template 1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1761,
+                    773,
+                    1789
+                ],
+                "score": 0.987,
+                "text": "[AC-wlan-ap-2608-radio-1]radio enable"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1799,
+                    658,
+                    1827
+                ],
+                "score": 0.994,
+                "text": "[AC-wlan-ap-2608-radio-1]quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    1837,
+                    546,
+                    1869
+                ],
+                "score": 0.996,
+                "text": "[AC-wlan-ap-2608]quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    238,
+                    1874,
+                    628,
+                    1916
+                ],
+                "score": 0.952,
+                "text": "(5）配置VLAN接口IP 地址"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1931,
+                    672,
+                    1959
+                ],
+                "score": 0.988,
+                "text": "[AC]interface vlan-interface 1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    1970,
+                    1043,
+                    1998
+                ],
+                "score": 0.985,
+                "text": "[AC-vlan-interface1]ip address 60.191.99.143 255.255.0.0"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    2010,
+                    590,
+                    2038
+                ],
+                "score": 0.971,
+                "text": "[AC-vlan-interfacel]quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    2048,
+                    673,
+                    2076
+                ],
+                "score": 0.99,
+                "text": "[AC]interface vlan-interface 2"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    2086,
+                    1056,
+                    2114
+                ],
+                "score": 0.984,
+                "text": "[AC-vlan-interface2]ip address 10.249.136.1 255.255.252.0"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    2126,
+                    588,
+                    2154
+                ],
+                "score": 0.988,
+                "text": "[AC-vlan-interface2]quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    237,
+                    2163,
+                    802,
+                    2196
+                ],
+                "score": 0.975,
+                "text": "(6）使能DHCP服务，配置DHCP地址池"
+            }
+        ],
+        "page_info": {
+            "page_no": 4,
+            "width": 1654,
+            "height": 2339
+        }
+    },
+    {
+        "layout_dets": [
+            {
+                "cls_id": 1,
+                "label": "algorithm",
+                "score": 0.9467,
+                "bbox": [
+                    241,
+                    121,
+                    883,
+                    349
+                ],
+                "index": 1
+            },
+            {
+                "cls_id": 17,
+                "label": "paragraph_title",
+                "score": 0.9534,
+                "bbox": [
+                    153,
+                    381,
+                    776,
+                    421
+                ],
+                "index": 2
+            },
+            {
+                "cls_id": 22,
+                "label": "text",
+                "score": 0.9669,
+                "bbox": [
+                    235,
+                    458,
+                    1500,
+                    540
+                ],
+                "index": 3
+            },
+            {
+                "cls_id": 1,
+                "label": "algorithm",
+                "score": 0.7124,
+                "bbox": [
+                    238,
+                    559,
+                    1380,
+                    1035
+                ],
+                "index": 4
+            },
+            {
+                "cls_id": 16,
+                "label": "number",
+                "score": 0.8499,
+                "bbox": [
+                    835,
+                    2219,
+                    856,
+                    2246
+                ],
+                "index": 5
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    242,
+                    459,
+                    1499,
+                    496
+                ],
+                "score": 0.956,
+                "text": "在无线控制器上执行 display wlan ap 命令，state 字段显示为“R/M”，表示LA2608与无线控制"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    242,
+                    502,
+                    525,
+                    540
+                ],
+                "score": 0.998,
+                "text": "器之间已经建立连接。"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    835,
+                    2219,
+                    857,
+                    2251
+                ],
+                "score": 0.998,
+                "text": "3"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    158,
+                    383,
+                    774,
+                    418
+                ],
+                "score": 0.985,
+                "text": "1.2.3验证LA2608 与无线控制器是否连通"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    124,
+                    460,
+                    152
+                ],
+                "score": 0.974,
+                "text": "[AC]dhcp enable"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    164,
+                    657,
+                    190
+                ],
+                "score": 0.972,
+                "text": "[AC]dhcp server ip-pool vlan2"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    203,
+                    856,
+                    229
+                ],
+                "score": 0.977,
+                "text": "[AC-dhcp-pool-vlan1]network 10.249.136.0 22"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    241,
+                    884,
+                    267
+                ],
+                "score": 0.978,
+                "text": "[AC-dhcp-pool-vlan1]gateway-list 10.249.136.1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    244,
+                    280,
+                    855,
+                    306
+                ],
+                "score": 0.969,
+                "text": "[AC-dhcp-pool-vlan1]dns-list 218.201.96.130"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    245,
+                    319,
+                    586,
+                    347
+                ],
+                "score": 0.97,
+                "text": "[AC-dhcp-pool-vlanl]quit"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    241,
+                    558,
+                    659,
+                    590
+                ],
+                "score": 0.971,
+                "text": "<sysname> display wlan ap all"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    239,
+                    596,
+                    675,
+                    629
+                ],
+                "score": 0.978,
+                "text": "Total Number of APs configured"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    835,
+                    596,
+                    888,
+                    629
+                ],
+                "score": 0.784,
+                "text": "：1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    251,
+                    634,
+                    888,
+                    668
+                ],
+                "score": 0.968,
+                "text": "Total Number of configured APs connected : 1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    253,
+                    676,
+                    747,
+                    704
+                ],
+                "score": 0.992,
+                "text": "Total Number of auto APs connected"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    833,
+                    675,
+                    889,
+                    707
+                ],
+                "score": 0.751,
+                "text": "：0"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    719,
+                    713,
+                    887,
+                    743
+                ],
+                "score": 0.984,
+                "text": "AP Profiles"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    253,
+                    755,
+                    884,
+                    783
+                ],
+                "score": 0.908,
+                "text": "State :I = Idle, J = Join, JA = JoinAck,"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    893,
+                    755,
+                    1113,
+                    783
+                ],
+                "score": 0.958,
+                "text": "IL = ImageLoad"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    365,
+                    791,
+                    1072,
+                    823
+                ],
+                "score": 0.911,
+                "text": "C = Config, R = Run, KU = KeyUpdate, KC = KeyCfm"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    362,
+                    828,
+                    689,
+                    864
+                ],
+                "score": 0.944,
+                "text": "M = Master, B = Backup"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    251,
+                    906,
+                    363,
+                    940
+                ],
+                "score": 0.979,
+                "text": "AP Name"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    723,
+                    909,
+                    885,
+                    938
+                ],
+                "score": 0.972,
+                "text": "State Model"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    1076,
+                    909,
+                    1212,
+                    937
+                ],
+                "score": 0.987,
+                "text": "Serial-ID"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    243,
+                    987,
+                    304,
+                    1019
+                ],
+                "score": 0.864,
+                "text": "ap1"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    720,
+                    986,
+                    779,
+                    1018
+                ],
+                "score": 0.957,
+                "text": "R/M"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    805,
+                    987,
+                    900,
+                    1017
+                ],
+                "score": 0.963,
+                "text": "LA2608"
+            },
+            {
+                "label": "ocr_text",
+                "bbox": [
+                    1076,
+                    986,
+                    1312,
+                    1018
+                ],
+                "score": 0.996,
+                "text": "036286A054000033"
+            }
+        ],
+        "page_info": {
+            "page_no": 5,
+            "width": 1654,
+            "height": 2339
+        }
+    }
+]
