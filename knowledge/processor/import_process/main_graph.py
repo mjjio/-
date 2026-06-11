@@ -100,7 +100,7 @@ def run_graph_import(import_file_path:str,
     init_state = create_default_state(**state)
     # 图执行
     final_state = None
-    for event in graph.stream(init_state):
+    for event in import_graph_app.stream(init_state):
         # event字典遍历
         for node_name,state in event.items():
             print(f"运行节点的:{node_name},state:{state}")

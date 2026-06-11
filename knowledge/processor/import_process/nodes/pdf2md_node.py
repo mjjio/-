@@ -21,7 +21,7 @@ class Pdf2Md_Node(BaseNode):
 
         # 2.转换文件格式
         # 如果已经是md则不需要转换
-        if state["md_path"]:
+        if state.get("md_path"):
             return state
         # 如果不是进行转换
         process_code = self.pdf2md(import_file_path, file_dir)

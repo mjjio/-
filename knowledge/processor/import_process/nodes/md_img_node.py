@@ -46,7 +46,7 @@ class MdImgNode(BaseNode):
         :return: Tuple[str, Path, Path]
         """
         self.log_step("开始读取md文件......")
-        md_path_obj = Path(state["md_path"])
+        md_path_obj = Path(state.get("md_path"))
         # 校验文件存在性
         if not md_path_obj.exists():
             raise ImageProcessingError("md文件不存在")
