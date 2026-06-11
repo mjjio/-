@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-from knowledge.processor.import_process.demo import kb_import__graph_app
+from knowledge.processor.import_process.main_graph import import_graph_app
 from knowledge.upload.utils.paths import get_local_base_dir
 from knowledge.upload.service.task_service import TaskService
 
@@ -143,7 +143,7 @@ class ImportFileService:
             }
 
             # 3. 流式执行整个导入流水线
-            for event in kb_import__graph_app.stream(global_graph_init_status):
+            for event in import_graph_app.stream(global_graph_init_status):
                 for key, value in event.items():
                     print(f"[{task_id}] Completed Node: {key}")
 

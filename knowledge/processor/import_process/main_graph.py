@@ -30,7 +30,7 @@ def import_router(state:ImportGraphState):
 # pdf_to_md: pdf转换md
 # entry_node =》 pdf_to_md
 # 创建langGraph的builder，添加节点，添加边，编译，返回编译对象结果
-def create_graph_import() -> StateGraph:
+def create_graph_import():
     # 创建langGraph的builder
     builder = StateGraph(ImportGraphState)
 
@@ -83,7 +83,7 @@ def create_graph_import() -> StateGraph:
     graph = builder.compile()
     return graph
 
-graph = create_graph_import()
+import_graph_app = create_graph_import()
 
 # 测试
 # 构建状态数据，流式输出
