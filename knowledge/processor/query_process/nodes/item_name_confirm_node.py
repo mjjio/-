@@ -112,8 +112,7 @@ class ItemNameVector:
                         "item_name": h["entity"]["item_name"],
                         "score": h["distance"]
                     }
-                    for h in (hybrid_search_result[0]
-                              if hybrid_search_result else [])
+                    for h in (hybrid_search_result[0] if hybrid_search_result else [])
                 ]
             }
             match_vector.append(item_name_search_result)
@@ -134,25 +133,43 @@ class ItemNameVector:
         #     ]
         # }
         for item_name_result in searched_result:
-            # extracted_name = item_name_result["extracted_name"]
+            # 获得大语言模型提取到的商品名称
+            extracted_name = item_name_result["extracted_name"]
             matches = sorted(item_name_result.get("matches"), key=lambda x: x["score"], reverse=True)
             # 1 matches列表遍历，得到列表中每部分数据分数 score值
             # 1.1 score 大于 0.7 处理 放到confirmed列表
             # confirmed表示确认的一个值，options表示提供给用户的三个选项
             high = [m for m in matches if m.get('score') >= 0.7]
-            # 如果high只有一个值
-            if len(high) == 1:
-                confirmed.append(high[0].get("item_name"))
-            elif len(high) > 1:
-                # 如果不只一个高置信度的值
-                option_result = [i.get("item_name") for i in high[:3]]
-                options.extend(option_result)
+            # 如果存在高匹配度的内容
+            if high:
+                # 1 准备找最精准的那一个
+                extract = next((h for h in high if str(h['item_name']) == extracted_name), None)
+                # 找到了
+                if extract:
+                    picked = extract.get('item_name')
+                    # 必须做重复校验
+                    if picked not in confirmed:
+                        confirmed.append(picked)
+                elif len(high) == 1:
+                    picked = high[0].get('item_name')
+                    if picked not in confirmed:
+                        confirmed.append(picked)
+                # 有多个相似的值
+                else:
+                    for h in high[:3]:
+                        picked = h.get('item_name')
+                        if picked not in confirmed and picked not in options:
+                            options.append(picked)
+            # 不存在高匹配度的
             else:
-                # 如果没有高置信度的值
                 middle = [m for m in matches if m.get('score') >= 0.6]
-                options = [i.get("item_name") for i in middle[:3]]
+                if middle:
+                    for m in middle[:3]:
+                        picked = m.get('item_name')
+                        if picked not in confirmed and picked not in options:
+                            options.append(picked)
 
-        return confirmed, options
+        return confirmed, options[:3]
 
 class ItemNameConfirmNode(BaseNode):
     def __init__(self):
@@ -184,7 +201,7 @@ class ItemNameConfirmNode(BaseNode):
         #     "rewritten_query": "关于商品A和商品B，..."
         # }
         llm_result = self._item_name_llm.extract_item_name(origin_query, history)
-
+        print(llm_result)
         item_names = llm_result.get("item_names")
         rewritten_query = llm_result.get("rewritten_query")
 

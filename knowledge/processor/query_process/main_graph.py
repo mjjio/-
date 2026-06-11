@@ -9,12 +9,12 @@ from dotenv import load_dotenv
 
 from knowledge.processor.query_process.base import setup_logging
 from knowledge.processor.query_process.nodes.answer import AnswerOutputNode
-from knowledge.processor.query_process.nodes.hyde_search_node import HydeSearchNode
+from knowledge.processor.query_process.nodes.hyde_search import HydeSearchNode
 from knowledge.processor.query_process.nodes.item_name_confirm_node import ItemNameConfirmNode
-from knowledge.processor.query_process.nodes.reranker import RerankNode
-from knowledge.processor.query_process.nodes.rrf import RrfNode
-from knowledge.processor.query_process.nodes.vector_search_node import VectorSearchNode
-from knowledge.processor.query_process.nodes.web_search_node import WebSearchNode
+from knowledge.processor.query_process.nodes.rrf_node import RrfNode
+from knowledge.processor.query_process.nodes.search_chunks import VectorSearchNode
+from knowledge.processor.query_process.nodes.mcp_web_search import MCPWebSearchNode
+from knowledge.processor.query_process.nodes.reranker_node import RerankerNode
 from knowledge.processor.query_process.state import QueryGraphState
 
 # 加载环境变量
@@ -37,10 +37,10 @@ def create_query_graph() -> CompiledStateGraph:
         "multi_search": lambda x: x,   # 虚拟节点
         "search_embedding": VectorSearchNode(),
         "search_embedding_hyde": HydeSearchNode(),
-        "web_search_mcp": WebSearchNode(),
+        "web_search_mcp": MCPWebSearchNode(),
         "join": lambda x: {},  # 多路搜索汇合（虚节点）
         "rrf": RrfNode(),
-        "rerank": RerankNode(),
+        "rerank": RerankerNode(),
         # "answer_output": AnswerOutputNode()
 
     }

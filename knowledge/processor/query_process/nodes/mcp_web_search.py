@@ -7,7 +7,13 @@ from knowledge.processor.query_process.base import BaseNode
 
 
 class MCPWebSearchNode(BaseNode):
-    async def process(self, state):
+
+    # 外层同步process
+    def process(self,state):
+        return asyncio.run(self._async_process(state))
+
+    # 内部异步调用
+    async def _async_process(self, state):
         # 参数校验
         item_names, rewritten_query = self._validate_params(state)
         # 调用mcp工具
@@ -87,5 +93,5 @@ if __name__ == "__main__":
     }
 
     web_search = MCPWebSearchNode()
-    result = asyncio.run(web_search.process(state))
+    result = web_search.process(state)
     print(result)

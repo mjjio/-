@@ -164,19 +164,19 @@ class ItemNameRecognitionNode(BaseNode):
 
 if __name__ == '__main__':
 
-    chunk_json_path = r"E:\project\shopkeer_brain\knowledge\processor\import_process\import_temp_dir\hak180产品安全手册\hybrid_auto\chunks.json"
+    chunk_json_path = r"E:\project\shopkeer_brain\knowledge\processor\import_process\import_temp_dir\chunks.json"
     with open(chunk_json_path,"r",encoding="utf-8") as f:
         chunks_content = json.load(f)
 
     # file_title,chunks
     state = {
-        "file_tittle":"hak180产品安全手册",
+        "file_title":"H3CLA2608室内无线网关用户手册-6W100-整本手册",
         "chunks":chunks_content
     }
     itemNameRecognition = ItemNameRecognitionNode()
     result = itemNameRecognition.process(state)
 
-    output_dir = "E:\project\shopkeer_brain\knowledge\processor\import_process\import_temp_dir\hak180产品安全手册\hybrid_auto\chunks_item_name.json"
+    output_dir = r"E:\project\shopkeer_brain\knowledge\processor\import_process\import_temp_dir\H3CLA2608室内无线网关用户手册-6W100-整本手册\auto\chunks_item_name.json"
     with open(output_dir,"w",encoding="utf-8") as f:
         json.dump(state["chunks"],f,ensure_ascii=False,indent=4)
 
