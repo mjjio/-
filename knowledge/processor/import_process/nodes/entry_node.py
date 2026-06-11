@@ -12,8 +12,13 @@ class EntryNode(BaseNode):
         # 使用日志输出信息
         self.log_step("步骤1","[开始检查文件类型]")
         # 导入文件目录和地址
-        file_path = state["import_file_path"]
-        file_dir = state["file_dir"]
+        file_path = state.get("import_file_path") # 都是用.get方法防止空值出现
+        file_dir = state.get("file_dir")
+
+        # 校验导入的文件路径以及文件所在的目录
+        if not file_path or not file_dir:
+            raise ValidationError("文件目录或者文件不存在")
+
         # 获取文件后缀
         path = Path(file_path)
         # .pdf .md格式

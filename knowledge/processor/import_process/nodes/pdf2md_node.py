@@ -36,21 +36,26 @@ class Pdf2Md_Node(BaseNode):
     # 1. 验证文件存在
     def validate_path(self, state:ImportGraphState):
         # 1. 从path获取文件
-        import_file_path = state["import_file_path"]
+        import_file_path = state.get("import_file_path","")
         file_path = Path(import_file_path)
         # 判断文件是否存在
         if not file_path.exists():
             raise FileProcessingError(f"文件不存在{file_path}")
 
-        file_dir = state["file_dir"]
+        file_dir = state.get("file_dir")
+
         if not file_dir:
+            # 默认路径做兜底
             file_dir = file_path.parent
+
+        self.logger.info(f"上传文件的路径{import_file_path}")
+        self.logger.info(f"输出的目录{file_dir}")
 
         return file_path, Path(file_dir)
 
     # 2. 把pdf文件转为md格式
     def pdf2md(self, import_file_path, file_dir):
-        self.log_step("pdf2md......")
+        self.log_step("step2","pdf2md......")
         # 命令行本地调用
         os.environ["HF_ENDPOINT"] = "http://hf-mirror.com"
         os.environ["MINERU_MODEL_SOURCE"] = "local"
@@ -78,21 +83,22 @@ class Pdf2Md_Node(BaseNode):
             encoding="utf-8",
             bufsize=1
         )
-
+        # 打印执行mineru日志
         for event in proc.stdout:
-            self.log_step(f"mineru执行日志{event}")
-
+            self.logger.info(f"mineru执行日志{event}")
+        # 等待子进程做完
         process_code = proc.wait()
         if process_code != 0:
-            self.log_step("执行mineru失败了...")
+            self.logger.error("执行mineru失败了...")
         else:
-            self.log_step("执行mineru成功了...")
+            self.logger.info("执行mineru成功了...")
+        # 返回状态码
         return process_code
 
     # 3. 拼出md_path
     def get_path(self, import_file_path, file_dir):
         file_name = import_file_path.stem
-        md_path = file_dir/ file_name / "auto" / f"{file_name}.md"
+        md_path = file_dir / file_name / "auto" / f"{file_name}.md"
         return str(md_path)
 
 if __name__ == "__main__":
