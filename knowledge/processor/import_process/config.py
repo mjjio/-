@@ -1,6 +1,5 @@
 """
 导入流程配置管理模块
-
 集中管理所有配置项，支持环境变量覆盖
 """
 
@@ -8,6 +7,7 @@ from dataclasses import dataclass, field
 from typing import Set, Optional
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
 @dataclass
@@ -18,7 +18,11 @@ class ImportConfig:
     max_content_length: int = 2000  # 切片最大长度
     min_content_length: int = 500   # 合并短内容的最小长度
     overlap_sentences: int = 1      # 句子级切分时的重叠句数
-    item_name_chunk_k: int = 3      # 商品名识别时使用的切片数量
+
+    # 提取全局元数据时使用前几个切片进行上下文拼接
+    global_metadata_chunk_k: int = field(
+        default_factory=lambda: int(os.getenv("GLOBAL_METADATA_CHUNK_K", "5"))
+    )
 
     image_extensions: Set[str] = field(
         default_factory=lambda: {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp"}
@@ -34,25 +38,34 @@ class ImportConfig:
     vl_model: str = field(
         default_factory=lambda: os.getenv("VL_MODEL", "")
     )
-    item_model: str = field(
-        default_factory=lambda: os.getenv("ITEM_MODEL", "")
+    extraction_model: str = field(
+        default_factory=lambda: os.getenv("EXTRACTION_MODEL", os.getenv("LLM_DEFAULT_MODEL", ""))
+    )
+    kg_model: str = field(
+        default_factory=lambda: os.getenv("KG_MODEL", "")
     )
     default_model: str = field(
-        default_factory=lambda: os.getenv("MODEL", "")
+        default_factory=lambda: os.getenv("LLM_DEFAULT_MODEL", "")
     )
 
     # ==================== Milvus 配置 ====================
     milvus_url: str = field(
         default_factory=lambda: os.getenv("MILVUS_URL", "")
     )
+
+    # 全局文档意图集合名
+    global_collection: str = field(
+        default_factory=lambda: os.getenv("GLOBAL_COLLECTION", "tourism_global_docs_v1")
+    )
+
+    # 切片详情集合名
     chunks_collection: str = field(
-        default_factory=lambda: os.getenv("CHUNKS_COLLECTION", "")
+        default_factory=lambda: os.getenv("CHUNK_COLLECTION", "tourism_local_chunks_v1")
     )
-    item_name_collection: str = field(
-        default_factory=lambda: os.getenv("ITEM_NAME_COLLECTION", "")
-    )
+
+    # 实体名称集合名
     entity_name_collection: str = field(
-        default_factory=lambda: os.getenv("ENTITY_NAME_COLLECTION", "")
+        default_factory=lambda: os.getenv("ENTITY_NAME_COLLECTION", "kb_graph_entity_names_v2")
     )
 
     # ==================== Neo4j 配置 ====================
@@ -91,7 +104,7 @@ class ImportConfig:
     embedding_batch_size: int = 5
 
     # ==================== 速率限制 ====================
-    requests_per_minute: int = 12  # 图片总结 API 速率限制
+    requests_per_minute: int = 12
 
     @classmethod
     def from_env(cls) -> "ImportConfig":
@@ -99,10 +112,8 @@ class ImportConfig:
         return cls()
 
 
-
 # ==================== 全局单例 ====================
 _config: Optional[ImportConfig] = None
-
 
 def get_config() -> ImportConfig:
     """获取配置单例"""
@@ -110,4 +121,3 @@ def get_config() -> ImportConfig:
     if _config is None:
         _config = ImportConfig.from_env()
     return _config
-

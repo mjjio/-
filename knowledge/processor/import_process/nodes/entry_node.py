@@ -24,16 +24,14 @@ class EntryNode(BaseNode):
         # .pdf .md格式
         suffix = path.suffix.lower()
         # 判断
-        if suffix == '.pdf':
-            # 日志输出
-            self.log_step("pdf","[pdf检查通过]")
-            state["is_pdf_read_enabled"] = True
-            state["pdf_path"] = file_path
-        elif suffix == '.md':
+        # 仅支持markdown文档进行加载
+        if suffix == '.md':
             # 日志输出
             self.log_step("md","[md检查通过]")
             state["is_md_read_enabled"] = True
             state["md_path"] = file_path
+            state["md_content"] = self._read_md_content(file_path)
+
         else:
             self.log_step("other","检查不通过")
             raise ValidationError("文件格式错误")
@@ -42,14 +40,42 @@ class EntryNode(BaseNode):
         state["file_title"] = file_title
         return state
 
+    def _read_md_content(self, file_path: str) -> str:
+        """
+        根据给定的路径读取 Markdown 文件的文本内容
+        """
+        path = Path(file_path)
+        if not path.exists():
+            self.logger.error(f"找不到需要读取的文件: {file_path}")
+            raise FileNotFoundError(f"文件不存在: {file_path}")
+
+        self.logger.info(f"开始读取文件内容: {file_path}")
+
+        try:
+            # 使用 utf-8 编码安全读取文本
+            content = path.read_text(encoding="utf-8")
+
+            # 判空警告（防御性编程）
+            if not content.strip():
+                self.logger.warning(f"警告：读取的文件内容为空 ({file_path})")
+            else:
+                self.logger.info(f"成功读取文件，共 {len(content)} 个字符。")
+
+            return content
+
+        except Exception as e:
+            self.logger.error(f"读取文件失败 [{file_path}]: {str(e)}")
+            raise ValidationError(f"文件读取异常: {str(e)}")
+
+
 if __name__ == '__main__':
     # 日志初始化
     setup_logging()
 
     # 构建字典数据
     enty_state = {
-        "file_dir":r"knowledge/processor/import_process/import_temp_dir",
-        "import_file_path":r"knowledge/processor/import_process/import_temp_dir/hak180产品安全手册.pdf",
+        "file_dir":r"E:\project\初始化项目\交通指南",
+        "import_file_path":r"E:\project\初始化项目\交通指南\成都交通指南.md",
     }
 
     # EntryNode实例化,执行父类里面 __init__方法

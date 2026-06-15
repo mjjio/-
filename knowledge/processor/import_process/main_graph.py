@@ -4,78 +4,46 @@ from langgraph.constants import END
 from langgraph.graph import StateGraph
 
 from knowledge.processor.import_process.base import setup_logging
-from knowledge.processor.import_process.nodes.chunks_embedding_node import ChunkEmbeddingNode
-from knowledge.processor.import_process.nodes.document_splitter_node import DocumentSplitterNode
-from knowledge.processor.import_process.nodes.entry_node import EntryNode
-from knowledge.processor.import_process.nodes.chunks_upload_milvus import ImportMilvusNode
-from knowledge.processor.import_process.nodes.item_name_recognition_node import ItemNameRecognitionNode
-from knowledge.processor.import_process.nodes.knowledge_graph_node import KnowledgeGraphNode
-from knowledge.processor.import_process.nodes.md_img_node import MdImgNode
-from knowledge.processor.import_process.nodes.pdf2md_node import Pdf2Md_Node
 from knowledge.processor.import_process.state import ImportGraphState, create_default_state
 
-# 路由方法
-def import_router(state:ImportGraphState):
-    # 判断文件类型 md  pdf
-    if state.get('is_pdf_read_enabled'):
-        return "pdf_to_md"
+# 引入我们重构后的旅游知识库核心节点
+from knowledge.processor.import_process.nodes.entry_node import EntryNode
+from knowledge.processor.import_process.nodes.document_splitter_node import DocumentSplitterNode
+from knowledge.processor.import_process.nodes.meta_data_extract import  LocationIntentRecognitionNode# 替代了原本的 ItemName
+from knowledge.processor.import_process.nodes.chunks_embedding_node import ChunkEmbeddingNode
+from knowledge.processor.import_process.nodes.chunks_upload_milvus import ImportMilvusNode
+from knowledge.processor.import_process.nodes.knowledge_graph_node import KnowledgeGraphNode
 
-    if state.get('is_md_read_enabled'):
-        return "md_img_node"
-    return END
 
-# 通过langGraph机制把多个节点执行
-# 两个节点
-# entry_node : 文件类型检查
-# pdf_to_md: pdf转换md
-# entry_node =》 pdf_to_md
-# 创建langGraph的builder，添加节点，添加边，编译，返回编译对象结果
 def create_graph_import():
-    # 创建langGraph的builder
+    # 创建 langGraph 的 builder
     builder = StateGraph(ImportGraphState)
 
-    # 添加节点
     # 设置入口节点
     builder.set_entry_point("entry_node")
-    # 添加节点
+
+    # 注册所有节点
     nodes = {
         "entry_node": EntryNode(),
-        "pdf_to_md": Pdf2Md_Node(),
-        "md_img_node": MdImgNode(),
         "document_split_node": DocumentSplitterNode(),
-        "item_name_rec_node":ItemNameRecognitionNode(),
+        "intent_rec_node": LocationIntentRecognitionNode(),  # 替换为旅游意图识别节点
         "bge_embedding_node": ChunkEmbeddingNode(),
         "import_milvus_node": ImportMilvusNode(),
-        "kg_node":KnowledgeGraphNode()
+        "kg_node": KnowledgeGraphNode()
     }
-    # 遍历
-    for key,value in nodes.items():
+
+    # 遍历添加节点
+    for key, value in nodes.items():
         builder.add_node(key, value)
 
-    # 条件边
-    # 根据entry_node节点返回数据判断
-    # 如果文档类型是md， 进入到 md_img_node
-    # 如果文档类型是pdf，进入到 pdf_to_md
-    # 参数一：开始节点位置
-    # 参数二：判断（路由）方法
-    # 参数三：根据参数二返回结果，决定进入哪个节点
-    builder.add_conditional_edges(
-        "entry_node",
-        import_router,
-        {
-            "md_img_node":"md_img_node",
-            "pdf_to_md":"pdf_to_md",
-            END:END
-        }
-    )
-
-    # 添加边
-    builder.add_edge("entry_node", "pdf_to_md")
-    builder.add_edge("pdf_to_md", "md_img_node")
-    builder.add_edge("md_img_node", "document_split_node")
-    builder.add_edge("document_split_node", "item_name_rec_node")
-    builder.add_edge("item_name_rec_node", "bge_embedding_node")
+    # ==========================================
+    # 去掉条件路由，直接添加线性边 (一条龙执行)
+    # ==========================================
+    builder.add_edge("entry_node", "document_split_node")
+    builder.add_edge("document_split_node", "intent_rec_node")
+    builder.add_edge("intent_rec_node", "bge_embedding_node")
     builder.add_edge("bge_embedding_node", "import_milvus_node")
+    # builder.add_edge("import_milvus_node", END)
     builder.add_edge("import_milvus_node", "kg_node")
     builder.add_edge("kg_node", END)
 
@@ -83,37 +51,52 @@ def create_graph_import():
     graph = builder.compile()
     return graph
 
+
 import_graph_app = create_graph_import()
 
-# 测试
+
 # 构建状态数据，流式输出
-def run_graph_import(import_file_path:str,
-                     file_dir:str):
-    # 获取graph对象
-    # graph = create_graph_import()
+def run_graph_import(import_file_path: str, file_dir: str):
     # 构建状态数据
     state = {
-        "import_file_path":import_file_path,
-        "file_dir":file_dir
+        "import_file_path": import_file_path,
+        "file_dir": file_dir
     }
-    # 解包
+    # 初始化状态
     init_state = create_default_state(**state)
+
     # 图执行
     final_state = None
     for event in import_graph_app.stream(init_state):
-        # event字典遍历
-        for node_name,state in event.items():
-            print(f"运行节点的:{node_name},state:{state}")
-            final_state = state
+        # event 字典遍历
+        for node_name, current_state in event.items():
+            print(f">>> [图流转追踪] 节点 '{node_name}' 执行完毕。当前状态: {current_state.get('status')}")
+            final_state = current_state
+
     return final_state
+
 
 if __name__ == "__main__":
     setup_logging()
-    import_file_path = r"E:\project\shopkeer_brain\knowledge\processor\import_process\import_temp_dir\H3CLA2608室内无线网关用户手册-6W100-整本手册.pdf"
-    file_dir = r"E:\project\shopkeer_brain\knowledge\processor\import_process\import_temp_dir"
-    # 1. 测试编排流程
-    final_state=run_graph_import(
+
+    # 【注意】因为我们的 EntryNode 里写死了只放行 .md，所以这里请改成 md 文件路径
+    import_file_path = r"E:\project\初始化项目\交通指南\成都交通指南.md"
+    file_dir = r"E:\project\初始化项目\交通指南"
+
+    # 测试编排流程
+    print("========== 开始启动旅游知识库图谱构建流程 ==========")
+    final_state = run_graph_import(
         import_file_path=import_file_path,
-                    file_dir=file_dir)
-    print(json.dumps(final_state, indent=2,
-                     ensure_ascii=False))
+        file_dir=file_dir
+    )
+
+    # 打印最终结果摘要 (避免直接 dumps 打印巨大的向量数组导致控制台崩溃)
+    if final_state:
+        print("\n========== 导入流程完美结束 ==========")
+        print(f"-> 文件标题   : {final_state.get('file_title')}")
+        print(f"-> 识别意图   : {final_state.get('file_class')}")
+        print(f"-> 目的地     : {final_state.get('destination')}")
+        print(f"-> 产生切片数 : {len(final_state.get('chunks', []))} 个")
+        print(f"-> 最终状态   : {final_state.get('status')}")
+        if final_state.get('errors'):
+            print(f"-> 流程警告   : {final_state.get('errors')}")

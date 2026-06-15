@@ -9,13 +9,14 @@ from dotenv import load_dotenv
 from knowledge.processor.query_process.state import QueryGraphState
 
 from knowledge.processor.query_process.nodes.answer import AnswerOutputNode
-from knowledge.processor.query_process.nodes.item_name_confirm_node import ItemNameConfirmNode
+from knowledge.processor.query_process.nodes.query_intent import QueryIntentConfirmNode
 from knowledge.processor.query_process.nodes.search_chunks import VectorSearchNode
 from knowledge.processor.query_process.nodes.hyde_search import HydeSearchNode
 from knowledge.processor.query_process.nodes.mcp_web_search import MCPWebSearchNode
 # from knowledge.processor.query_process.nodes.kg_search_node import KnowledgeGraphSearchNode
 from knowledge.processor.query_process.nodes.rrf_node import RrfNode
 from knowledge.processor.query_process.nodes.reranker_node import RerankerNode
+from processor.query_process.nodes.kg_search_node import KnowledgeGraphSearchNode
 
 # 加载环境变量
 load_dotenv()
@@ -79,11 +80,11 @@ def create_query_graph() -> CompiledStateGraph:
 
     # 2. 实例化节点
     nodes = {
-        "item_name_confirm": ItemNameConfirmNode(),
+        "item_name_confirm": QueryIntentConfirmNode(),
         "multi_search": lambda x: x,   # 虚拟节点
         "search_embedding": VectorSearchNode(),
         "search_embedding_hyde": HydeSearchNode(),
-        # "query_kg": KnowledgeGraphSearchNode(),
+        "query_kg": KnowledgeGraphSearchNode(),
         "web_search_mcp": MCPWebSearchNode(),
         "join": lambda x: {},  # 多路搜索汇合（虚节点）
         "rrf": RrfNode(),
@@ -112,13 +113,13 @@ def create_query_graph() -> CompiledStateGraph:
     # 6. 多路搜索分发（并行执行）
     workflow.add_edge("multi_search", "search_embedding")
     workflow.add_edge("multi_search", "search_embedding_hyde")
-    # workflow.add_edge("multi_search", "query_kg")
+    workflow.add_edge("multi_search", "query_kg")
     workflow.add_edge("multi_search", "web_search_mcp")
 
     # 7. 多路搜索汇合
     workflow.add_edge("search_embedding", "join")
     workflow.add_edge("search_embedding_hyde", "join")
-    # workflow.add_edge("query_kg", "join")
+    workflow.add_edge("query_kg", "join")
     workflow.add_edge("web_search_mcp", "join")
 
     # 8. 顺序边
@@ -150,7 +151,7 @@ if __name__ == "__main__":
     print("-" * 60)
 
     mock_state_1 = {
-        "original_query": "我想知道H3C LA2608如何使用？",
+        "original_query": "如何从成都前往春熙路",
         "session_id": "test_session_main_graph",
         "task_id": "test_task_001",
         "is_stream": False,
@@ -163,7 +164,7 @@ if __name__ == "__main__":
     result_1 = query_app.invoke(mock_state_1)
 
     print(f"\n  【结果】:")
-    print(f"  商品名: {result_1.get('item_names')}")
+    # print(f"  商品名: {result_1.get('item_names')}")
     print(f"  重写查询: {result_1.get('rewritten_query')}")
     answer_1 = result_1.get("answer", "")
     print(f"  答案: {answer_1[:200]}..." if len(answer_1) > 200 else f"  答案: {answer_1}")

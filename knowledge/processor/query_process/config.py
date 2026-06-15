@@ -53,21 +53,21 @@ class QueryConfig:
         default_factory=lambda: int(os.getenv("HYDE_SEARCH_LIMIT", "5"))
     )
 
-    # ==================== 商品确认节点配置 ====================
-    item_name_high_confidence: float = field(
-        default_factory=lambda: float(os.getenv("ITEM_NAME_HIGH_CONFIDENCE", "0.7")) # 直接给的（压测给到）--->RAG评估（了解）
+    # ==================== 意图识别与全局对齐配置 (原商品确认节点) ====================
+    intent_high_confidence: float = field(
+        default_factory=lambda: float(os.getenv("INTENT_HIGH_CONFIDENCE", "0.7")) # 确认为唯一文档的阈值
     )
-    item_name_mid_confidence: float = field(
-        default_factory=lambda: float(os.getenv("ITEM_NAME_MID_CONFIDENCE", "0.6"))  # 直接给的（压测给到）--->RAG评估（了解）
+    intent_mid_confidence: float = field(
+        default_factory=lambda: float(os.getenv("INTENT_MID_CONFIDENCE", "0.6"))  # 提供选项的阈值
     )
-    item_name_max_options: int = field(
-        default_factory=lambda: int(os.getenv("ITEM_NAME_MAX_OPTIONS", "5"))
+    intent_max_options: int = field(
+        default_factory=lambda: int(os.getenv("INTENT_MAX_OPTIONS", "5"))
     )
-    item_name_dense_weight: float = field(
-        default_factory=lambda: float(os.getenv("ITEM_NAME_DENSE_WEIGHT", "0.5"))
+    intent_dense_weight: float = field(
+        default_factory=lambda: float(os.getenv("INTENT_DENSE_WEIGHT", "0.5"))
     )
-    item_name_sparse_weight: float = field(
-        default_factory=lambda: float(os.getenv("ITEM_NAME_SPARSE_WEIGHT", "0.5"))
+    intent_sparse_weight: float = field(
+        default_factory=lambda: float(os.getenv("INTENT_SPARSE_WEIGHT", "0.5"))
     )
 
     # ==================== 知识图谱配置 ====================
@@ -104,22 +104,22 @@ class QueryConfig:
     default_model: str = field(
         default_factory=lambda: os.getenv("MODEL", "")
     )
-    item_model: str = field(
-        default_factory=lambda: os.getenv("ITEM_MODEL", "")
+    intent_model: str = field(
+        default_factory=lambda: os.getenv("INTENT_MODEL", "")
     )
 
     # ==================== Milvus 配置 ====================
     milvus_url: str = field(
         default_factory=lambda: os.getenv("MILVUS_URL", "")
     )
-    chunks_collection: str = field(
-        default_factory=lambda: os.getenv("CHUNKS_COLLECTION", "")
+    global_collection: str = field(
+        default_factory=lambda: os.getenv("GLOBAL_COLLECTION", "tourism_global_docs_v1")
     )
-    item_name_collection: str = field(
-        default_factory=lambda: os.getenv("ITEM_NAME_COLLECTION", "")
+    chunks_collection: str = field(
+        default_factory=lambda: os.getenv("CHUNKS_COLLECTION", "tourism_local_chunks_v1")
     )
     entity_name_collection: str = field(
-        default_factory=lambda: os.getenv("ENTITY_NAME_COLLECTION", "")
+        default_factory=lambda: os.getenv("ENTITY_NAME_COLLECTION", "kb_graph_entity_names_v3")
     )
 
     # ==================== Neo4j 配置 ====================

@@ -1,5 +1,3 @@
-"""答案输出节点 —— 骨架版本（第一步）"""
-
 from typing import List, Dict, Any, Tuple
 from knowledge.processor.query_process.base import BaseNode
 from knowledge.processor.query_process.state import QueryGraphState
@@ -9,19 +7,16 @@ from knowledge.utils.task_util import set_task_result
 from knowledge.utils.sse_util import push_sse_event, SSEEvent
 from knowledge.utils.mongo_history_util import save_chat_message
 
-
 class AnswerOutputNode(BaseNode):
     name = "answer_output_node"
 
     def process(self, state: QueryGraphState) -> QueryGraphState:
-
         task_id = state.get("task_id")
         is_stream = state.get("is_stream")
 
-        # 1. 已有答案 → 直接返回
+        # 1. 已有答案 → 直接返回 (可能是底层拦截或选项拦截)
         if state.get("answer"):
             self._push_existing_answer(state)
-
         # 2. 构建提示词 → 调用 LLM 生成答案
         else:
             prompt = self._build_prompt(state)
@@ -59,9 +54,10 @@ class AnswerOutputNode(BaseNode):
     def _build_prompt(self, state: QueryGraphState) -> str:
         char_budget = self.config.max_context_chars
 
-        # 1. 获取问题和商品名
+        # 1. 获取问题和意图特征
         question = state.get("rewritten_query") or state.get("original_query", "")
-        item_names = state["item_names"]
+        destinations = state.get("destinations") or []
+        intents = state.get("intents") or []
 
         # 2. 格式化上下文文档
         context_str, char_budget = self._format_reranked_docs(
@@ -82,7 +78,8 @@ class AnswerOutputNode(BaseNode):
         return ANSWER_PROMPT.format(
             context=context_str or "无参考内容",
             history=history_str if history_str else "暂无历史对话",
-            item_names=", ".join(item_names),
+            destinations=", ".join(destinations) if destinations else "未指定具体目的地",
+            intents=", ".join(intents) if intents else "综合询问",
             graph_relation_description=graph_str or "无图谱关系",
             question=question,
         )
@@ -165,12 +162,10 @@ class AnswerOutputNode(BaseNode):
             return response.content
         except Exception as e:
             self.logger.error(f"生成回答出错: {e}")
-            return "抱歉，生成回答时出现错误。"
+            return "抱歉，生成旅游指南时出现错误。"
 
     def _stream_generate(self, llm_client, prompt, task_id):
-        """流式生成，逐 chunk 推送 delta 事件。
-         返回的是一个一个token(不是一个中文字符就是一个token )
-        """
+        """流式生成，逐 chunk 推送 delta 事件。"""
         accumulated_answer = ""
         try:
             for chunk in llm_client.stream(prompt):
@@ -182,12 +177,10 @@ class AnswerOutputNode(BaseNode):
             self.logger.error(f"流式生成出错: {e}")
         return accumulated_answer
 
-        # ★ 新增方法
-
     def _write_history(self, state: QueryGraphState):
         session_id = state["session_id"]
         rewritten_query = state.get("rewritten_query", "") or state.get("original_query", "")
-        item_names = state.get("item_names") or []
+        destinations = state.get("destinations") or []
         try:
             # 1. 写用户问题
             save_chat_message(
@@ -195,16 +188,17 @@ class AnswerOutputNode(BaseNode):
                 role="user",
                 text=state["original_query"],
                 rewritten_query=rewritten_query,
-                item_names=item_names,
+                # 为了不破坏原有 mongo_history_util 接口，我们依然赋值给 item_names 字段
+                item_names=destinations,
             )
-            # 2. AI回复（假的+真的）
+            # 2. AI回复（含拦截和最终生成的回答）
             if state.get("answer"):
                 save_chat_message(
                     session_id=session_id,
                     role="assistant",
-                    text=state["answer"],  # 模型的输出
+                    text=state["answer"],
                     rewritten_query=rewritten_query,
-                    item_names=item_names,
+                    item_names=destinations,
                 )
         except Exception as e:
             self.logger.warning(f"写入历史记录失败: {e}")

@@ -2,101 +2,113 @@
 导入相关的提示词模版管理
 """
 
-# 商品名提示词模版
-ITEM_NAME_SYSTEM_PROMPT = """你是一个专门用于信息抽取的 AI 专家。
-你的唯一任务是从用户提供的文档片段中，精准提取出该文档所描述的【核心商品名称/设备名称】。
+# 全局元数据提取提示词
+GLOBAL_METADATA_SYSTEM_PROMPT = """
+# Role & Task
+你是一个旅游知识库的全局分析引擎。请根据提供的文档开头部分（前几个切片），判断整篇文档的宏观属性。
 
-【提取规则】
-1. 完整性：尽可能提取出包含“品牌 + 系列/型号 + 核心设备品类”的完整技术名称。
-   - 示例 1（测试仪器）：优利德 UT890D+ 真有效值数字万用表
-   - 示例 2（电子设备）：泰克 MSO2000B 系列混合信号示波器
-   - 示例 3（工控硬件）：西门子 SIMATIC S7-1200 可编程控制器
-   - 示例 4（IT 与网络）：思科 Catalyst 9300 系列企业级交换机
-2. 降级策略：如果上下文中缺少品牌或型号，请提取最核心的品类名称即可（如：数字万用表）。
-3. 纯净输出：你是一个接口，绝对不要输出任何多余的解释、问候语、前缀或标点符号。
-4. 防护机制：如果提供的上下文中完全无法识别出任何具体的商品、设备或产品，请严格输出单词：UNKNOWN
+# Rules
+1. 仅提取全局属性，不需要提取具体的酒店或景点列表。
+2. 找不到则设为 null。
+
+# Format
+必须输出严格的 JSON 对象：
+{
+  "content_type": "string", // 必须从 [景区资料, 线路推荐, 酒店介绍, 美食攻略, 交通指南, 游记综合, 其他] 中选一
+  "region_name": "string | null" // 该文档主要描述的目的地/城市（如：三亚、川西）
+}
+"""
+
+# 局部实体提取提示词
+LOCAL_CHUNK_SYSTEM_PROMPT = """
+# Role & Task
+你是一个高精度的旅游实体提取引擎。请阅读当前的文本片段，提取其中明确提及的具体实体。
+
+# Rules
+1. 只提取当前文本片段中【真实出现】的实体，绝不根据常识捏造或联想。
+2. 如果文本中没有提及某类实体，必须返回空数组 []。
+3. 提取的值必须是数组格式。
+
+# Format
+必须输出严格的 JSON 对象：
+{
+  "attraction_names": ["string"], // 提取所有提到的景区/景点名称
+  "route_names": ["string"],      // 提取所有提到的线路名称
+  "hotel_names": ["string"],      // 提取所有提到的酒店/民宿名称
+  "restaurant_names": ["string"]  // 提取所有提到的餐厅/美食名称
+}
 """
 
 # 用户提示词模板：用于注入动态变量
-ITEM_NAME_USER_PROMPT_TEMPLATE = """请分析以下文档信息，并严格按照规则提取商品名称：
+USER_PROMPT_TEMPLATE = """请仔细阅读并分析以下文本，按照系统指令提取相应的结构化数据：
 
-【文档标题】
-{file_title}
-
-【文档内容切片】
+<text_content>
 {context}
-
-商品名称："""
-
-
-
-
+</text_content>
+"""
 
 # 知识库图谱 提示词模版
-KNOWLEDGE_GRAPH_SYSTEM_PROMPT= """你是知识图谱信息抽取器。给你一段设备操作手册的文本切片，你必须抽取实体与关系，并只输出一个 JSON 对象（不要输出解释、不要 Markdown）。
+KNOWLEDGE_GRAPH_SYSTEM_PROMPT = """你是专业的旅游知识图谱信息抽取器。给你一段旅游攻略或目的地指南的文本切片，你必须从中抽取具体的旅游实体与关系，并严格只输出一个 JSON 对象（不要输出解释、不要 Markdown 格式）。
 
 ## 允许的实体类型（label）
-- Device：设备整体（如"万用表""仪表"）
-- Part：部件或零件（如"电池后盖""螺母""表笔"）
-- Operation：操作/功能名称（如"电池安装""电阻测量"），通常对应章节标题
-- Step：操作步骤，name 用"步骤N-动作短语"格式（如"步骤1-断开表笔"），description 存原文
-- Warning：警告/注意事项，name 用"警告-核心要点"格式（如"警告-操作前断开电源"），description 存原文
-- Condition：前置条件或约束（如"电阻小于30Ω"）
-- Tool：工具（如"螺丝刀"）
+- Destination：目的地/城市/区域（如"三亚""大理""川西"）
+- Attraction：景点/景区/地标（如"天涯海角""蜈支洲岛""洱海"）
+- Hotel：酒店/民宿/住宿区（如"亚特兰蒂斯酒店""海棠湾"）
+- Restaurant：餐厅/美食店/夜市（如"萌哒哒椰子鸡""第一市场"）
+- Food：特色美食/菜品/特产（如"清补凉""文昌鸡"）
+- Route：旅游线路/行程（如"三亚5日纯玩线""环岛自驾"）
+- Transport：交通设施/方式（如"凤凰机场""高铁""租车"）
 
 ## 实体命名规则（非常重要）
-- name 必须简短，不超过15个字。这是硬性要求。
+- name 必须简短明确，绝不超过20个字。这是硬性要求。
 - 禁止将整句原文作为 name。
-- Step 格式：name="步骤N-动作短语"，description="原文完整步骤"
-- Warning 格式：name="警告-核心要点"，description="原文完整警告"
-- 同名同类型的实体只保留一个，不要重复。
+- 同名同类型的实体只保留一个，绝对不要重复。
+- 可以使用 description 字段来存储该实体的特色、价格、地址等补充说明（如："门票138元，包含游船"）。
 
 ## 允许的关系类型（type）
-- HAS_OPERATION：Device → Operation
-- HAS_PART：Device → Part
-- HAS_STEP：Operation → Step
-- USES_TOOL：Step → Tool
-- HAS_WARNING：Operation/Step → Warning
-- NEXT_STEP：Step → Step（按步骤顺序串联）
-- AFFECTS：Step → Part（该步骤操作了哪个部件）
-- REQUIRES：Step/Operation → Condition
+- LOCATED_IN：Attraction/Hotel/Restaurant → Destination（XX位于某地）
+- CONTAINS_ATTRACTION：Route/Destination → Attraction（路线/目的地包含某景点）
+- SERVES_FOOD：Restaurant/Destination → Food（某店/某地提供某美食）
+- NEARBY：Hotel/Attraction/Transport → Attraction/Transport（两个实体距离近/交通便利）
+- RECOMMENDED_HOTEL：Destination/Attraction → Hotel（某地附近推荐的酒店）
+- RECOMMENDED_FOOD：Destination/Attraction → Food（某地推荐的美食）
+- RELATED_TO：其他关联（当上述关系都不适用时使用）
 
 ## 抽取原则
-- 只抽取文本中明确出现或可直接对应的实体与关系，禁止臆造。
-- 步骤编号(1/2/3)时：每条作为 Step，并按顺序生成 NEXT_STEP 关系链。
-- 关系的 head 和 tail 必须使用实体的 name 值（简短名），不要用 description。
+- 只抽取文本中明确出现或可直接对应的实体与关系，禁止根据常识臆造。
+- 关系的 head 和 tail 必须使用实体的 name 值（简短名），绝对不要用 description 的内容。
 - 如果无法判断某个关系，不要输出该关系。
-- 输出必须包含 keys：entities, relations；没有则输出空数组。
+- 输出必须包含 keys：entities, relations；如果没有提取到，则对应输出空数组 []。
 
 ## 输出 JSON Schema
 {
   "entities": [
-    {"name": "简短名称", "label": "类型", "description": "可选，原文内容或补充说明"}
+    {"name": "简短名称", "label": "类型", "description": "可选，原文内容或特色说明"}
   ],
   "relations": [
-        {"head": "头实体name", "tail": "尾实体name", "type": "关系类型"}
+    {"head": "头实体name", "tail": "尾实体name", "type": "关系类型"}
   ]
 }
 
 ## Few-shot 示例
 输入切片：
-"警告：为防触电，打开电池后盖前，请勿操作仪表。用螺丝刀拧开电池后盖上的螺母。"
+"去三亚旅游，第一天强烈推荐去蜈支洲岛潜水（门票加船票168元）。晚上可以去第一市场逛逛，吃一顿正宗的清补凉。住宿的话，预算充足可以选择海棠湾的亚特兰蒂斯酒店，离免税店很近。"
 输出：
 {
   "entities": [
-    {"name":"打开电池后盖","label":"Operation"},
-    {"name":"警告-防触电","label":"Warning","description":"为防触电，打开电池后盖前，请勿操作仪表"},
-    {"name":"螺丝刀","label":"Tool"},
-    {"name":"电池后盖","label":"Part"},
-    {"name":"螺母","label":"Part"},
-    {"name":"步骤1-拧开螺母","label":"Step","description":"用螺丝刀拧开电池后盖上的螺母"}
+    {"name": "三亚", "label": "Destination"},
+    {"name": "蜈支洲岛", "label": "Attraction", "description": "门票加船票168元，适合潜水"},
+    {"name": "第一市场", "label": "Restaurant", "description": "晚上可以逛"},
+    {"name": "清补凉", "label": "Food", "description": "正宗特色小吃"},
+    {"name": "海棠湾", "label": "Destination"},
+    {"name": "亚特兰蒂斯酒店", "label": "Hotel", "description": "预算充足推荐，离免税店近"}
   ],
-  "relations":[
-    {"head":"打开电池后盖","tail":"警告-防触电","type":"HAS_WARNING"},
-    {"head":"步骤1-拧开螺母","tail":"螺丝刀","type":"USES_TOOL"},
-    {"head":"打开电池后盖","tail":"电池后盖","type":"HAS_PART"},
-    {"head":"打开电池后盖","tail":"步骤1-拧开螺母","type":"HAS_STEP"},
-    {"head":"步骤1-拧开螺母","tail":"螺母","type":"AFFECTS"}
+  "relations": [
+    {"head": "蜈支洲岛", "tail": "三亚", "type": "LOCATED_IN"},
+    {"head": "第一市场", "tail": "三亚", "type": "LOCATED_IN"},
+    {"head": "第一市场", "tail": "清补凉", "type": "SERVES_FOOD"},
+    {"head": "亚特兰蒂斯酒店", "tail": "海棠湾", "type": "LOCATED_IN"},
+    {"head": "三亚", "tail": "亚特兰蒂斯酒店", "type": "RECOMMENDED_HOTEL"}
   ]
 }
 """
