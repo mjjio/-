@@ -176,7 +176,7 @@
 
     async function uploadFile(file) {
         const isPDF = file.name.toLowerCase().endsWith('.pdf');
-        const totalNodes = isPDF ? 8 : 7;
+        const totalNodes = 6;
         const id = 'file-' + Math.random().toString(36).substr(2, 8);
 
         const html = `

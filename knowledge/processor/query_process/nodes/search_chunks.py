@@ -49,20 +49,14 @@ class VectorSearchNode(BaseNode):
         return rewritten_query, confirmed_docs
 
     def _search_vectors(self, query_embedded_vector, confirmed_docs):
-        # 创建 Milvus 链接对象与获取配置
         milvus_client = get_milvus_client()
         config = get_config()
-        # 对应导入环节建立的切片库名称
         collection_name = getattr(config, 'chunks_collection', 'tourism_local_chunks_v1')
 
-        # 构建弹性标量过滤条件
-        # 如果前面确定了用户询问的是哪几篇文档，则加上过滤条件，提高精确度
-        # 如果为空，expr 为 None，就如你所说，直接进行纯向量的全局语义检索
         expr = None
         if confirmed_docs:
             expr = self._create_search_file_title_expr(confirmed_docs)
 
-        # 构建混合搜索请求
         search_requests = create_hybrid_search_requests(
             dense_vector=query_embedded_vector["dense"][0],
             sparse_vector=query_embedded_vector["sparse"][0],
@@ -70,22 +64,40 @@ class VectorSearchNode(BaseNode):
             limit=5
         )
 
-        # 执行混合检索
         res = execute_hybrid_search_query(
             milvus_client=milvus_client,
             collection_name=collection_name,
             search_requests=search_requests,
-            ranker_weights=(0.5, 0.5),  # 稠密和稀疏的权重，可调节
+            ranker_weights=(0.5, 0.5),
             norm_score=True,
             limit=5,
-            # 根据切片库的 Schema，返回我们需要的内容
             output_fields=["chunk_id", "content", "file_title"],
         )
 
-        if not res or not res[0]:
-            return []
+        hits = res[0] if res and len(res) > 0 else []
 
-        return res[0]
+        # === ✨ 新增核心逻辑：无缝全局兜底 ✨ ===
+        if not hits and expr:
+            self.logger.warning(f"在限定文档 [{expr}] 下未找到切片，触发全局向量兜底搜索...")
+            fallback_requests = create_hybrid_search_requests(
+                dense_vector=query_embedded_vector["dense"][0],
+                sparse_vector=query_embedded_vector["sparse"][0],
+                expr=None,  # 去除标量限制
+                limit=5
+            )
+            fallback_res = execute_hybrid_search_query(
+                milvus_client=milvus_client,
+                collection_name=collection_name,
+                search_requests=fallback_requests,
+                ranker_weights=(0.5, 0.5),
+                norm_score=True,
+                limit=5,
+                output_fields=["chunk_id", "content", "file_title"],
+            )
+            hits = fallback_res[0] if fallback_res and len(fallback_res) > 0 else []
+        # ==================================
+
+        return hits
 
     def _create_search_file_title_expr(self, confirmed_docs):
         """
@@ -96,9 +108,9 @@ class VectorSearchNode(BaseNode):
 
 if __name__ == "__main__":
     state = {
-            "destinations": ['成都'],
+            "destinations": ['三亚'],
             "intents": ['交通指南'],
-            "rewritten_query": "如何从成都前往春熙路？",
+            "rewritten_query": "如何从前往亚龙湾？",
             "confirmed_docs": [],
     }
 

@@ -1,4 +1,4 @@
-from knowledge.upload.utils.task_util import (
+from knowledge.utils.task_util import (
     add_running_task,
     add_done_task,
     update_task_status,

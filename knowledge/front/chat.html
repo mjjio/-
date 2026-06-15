@@ -150,7 +150,8 @@
 
     .bubble {
       max-width: min(760px, 80%);
-      display: inline-block;
+      display: inline-flex;
+      flex-direction: column;
       border-radius: 18px;
       padding: 14px 18px;
       background: var(--bubble-bot);
@@ -173,19 +174,38 @@
       border-bottom-right-radius: 4px;
     }
 
+    /* ==== 深度思考区块 CSS ==== */
+    details.think-box {
+      margin-bottom: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      background: rgba(248, 250, 252, 0.6);
+      padding: 10px 14px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    details.think-box:hover { background: #f1f5f9; border-color: rgba(0,0,0,0.08); }
+    details.think-box summary {
+      cursor: pointer; user-select: none; font-size: 13px; color: #64748b; font-weight: 500;
+      display: flex; align-items: center; list-style: none; outline: none;
+    }
+    details.think-box summary::-webkit-details-marker { display: none; }
+    details.think-box summary::before {
+      content: "▶"; display: inline-block; width: 18px; font-size: 10px; transition: transform 0.2s; color: #94a3b8;
+    }
+    details.think-box[open] summary::before { transform: rotate(90deg); }
+    .think-content {
+      margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1;
+      font-size: 12.5px; color: #94a3b8; display: flex; flex-direction: column; gap: 6px;
+    }
+    .think-step.done { color: #10b981; }
+    .think-step.running { color: #3b82f6; animation: pulse 1.5s infinite; }
+
+    .spinner { display: inline-block; animation: spin 1.5s linear infinite; font-size: 12px; margin-left: 6px; }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
     .meta { font-size: 12px; color: #cbd5e1; margin-top: 6px; padding: 0 4px; }
     .msg.bot .meta { color: var(--text-muted); }
-
-    details.progress {
-      margin-top: 12px;
-      border: 1px dashed rgba(79, 172, 254, 0.4);
-      border-radius: 14px;
-      padding: 10px 14px;
-      background: rgba(79, 172, 254, 0.03);
-    }
-    details.progress summary { cursor: pointer; user-select: none; color: #3b82f6; font-size: 13px; font-weight: 500; }
-    .progress ul { margin: 10px 0 0 18px; padding: 0; }
-    .progress li { margin: 6px 0; font-size: 13px; color: var(--text-muted); }
 
     .answer-images { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
     .answer-images img {
@@ -414,16 +434,19 @@
 
     function addBotMsgSkeleton(){
       const id = 'bot-' + Math.random().toString(36).slice(2);
+      // 将原有的 details progress 改为带有高级感的深度思考容器
       const html = `
         <div class="msg bot" id="${id}">
           <div class="avatar bot">导</div>
-          <div style="min-width: 220px;">
+          <div style="min-width: 260px;">
             <div class="bubble">
-              <span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
-              <details class="progress" open>
-                <summary>正在规划路线...</summary>
-                <ul></ul>
+              <details class="think-box" open>
+                <summary><span class="think-title">正在深度检索知识库...</span></summary>
+                <div class="think-content"></div>
               </details>
+              <div class="answer">
+                <span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>
+              </div>
             </div>
             <div class="meta">${nowTime()}</div>
           </div>
@@ -434,34 +457,50 @@
     }
 
     function renderProgress(botMsgEl, doneList, runningList, status){
-      const details = botMsgEl.querySelector('details.progress');
+      const details = botMsgEl.querySelector('details.think-box');
       if(!details) return;
-      const summary = details.querySelector('summary');
-      const ul = details.querySelector('ul');
+      const title = details.querySelector('.think-title');
+      const content = details.querySelector('.think-content');
       const done = doneList || [], running = runningList || [];
 
-      const statusMap = { 'processing': '搜索攻略中', 'completed': '规划完成', 'failed': '获取失败', 'pending': '准备出发' };
-      summary.textContent = `路线探寻中（已完成${done.length}项，状态：${statusMap[status] || status || '未知'}）`;
+      if(status === 'completed') {
+        title.innerHTML = `已完成深度检索 (耗时 ${done.length} 步)`;
+      } else if(status === 'failed') {
+        title.innerHTML = `检索异常中断`;
+      } else {
+        title.innerHTML = `正在深度检索规划... <span class="spinner">🌀</span>`;
+      }
 
-      ul.innerHTML = '';
-      const lines = [...done.map(x => `✅ ${x}`), ...running.map(x => `✈️ ${x}`)];
-      if(lines.length === 0) ul.insertAdjacentHTML('beforeend', '<li>正在整理行囊...</li>');
-      else lines.forEach(line => ul.insertAdjacentHTML('beforeend', `<li>${escapeHtml(line)}</li>`));
+      content.innerHTML = '';
+      done.forEach(x => content.insertAdjacentHTML('beforeend', `<div class="think-step done">✓ 已完成：${escapeHtml(x)}</div>`));
+      running.forEach(x => content.insertAdjacentHTML('beforeend', `<div class="think-step running">➤ 思考中：${escapeHtml(x)}</div>`));
+
+      if(done.length === 0 && running.length === 0 && status !== 'completed'){
+         content.insertAdjacentHTML('beforeend', `<div class="think-step">正在初始化知识引擎...</div>`);
+      }
     }
 
     function finalizeBotAnswer(botMsgEl, answer, error, imageUrls){
       const bubble = botMsgEl.querySelector('.bubble');
-      const progress = botMsgEl.querySelector('details.progress');
-      if(progress) { progress.removeAttribute('open'); progress.remove(); }
 
-      bubble.textContent = '';
-      const answerEl = document.createElement('div');
-      answerEl.className = 'answer';
-      bubble.appendChild(answerEl);
+      // 折叠思考过程面板，而非直接删除
+      const progress = botMsgEl.querySelector('details.think-box');
+      if(progress) progress.removeAttribute('open');
 
+      // 移除打字机动画
+      const typing = botMsgEl.querySelector('.typing');
+      if(typing) typing.remove();
+
+      let answerEl = bubble.querySelector('.answer');
+      if(!answerEl) {
+        answerEl = document.createElement('div');
+        answerEl.className = 'answer';
+        bubble.appendChild(answerEl);
+      }
+
+      // 最终直接渲染文本和图片
       if((error || '').trim()) answerEl.textContent = `抱歉，本次攻略获取失败：\n${error}`;
       else renderAnswerWithImages(answerEl, answer || '', imageUrls || []);
-      if(progress) bubble.appendChild(progress);
     }
 
     async function loadHistory(){
@@ -516,7 +555,6 @@
         const { task_id } = data;
         const bubble = botMsgEl.querySelector('.bubble');
         let answerEl = bubble.querySelector('.answer');
-        if(!answerEl) { answerEl = document.createElement('div'); answerEl.className = 'answer'; bubble.insertBefore(answerEl, bubble.firstChild); }
 
         const es = new EventSource(`${API_BASE}/stream/${task_id}`);
         let rawAnswerText = '';
@@ -525,18 +563,25 @@
           try {
             const d = JSON.parse(e.data || '{}');
             renderProgress(botMsgEl, d.done_list, d.running_list, d.status);
-            if(d.status === 'completed') {
-              const typing = botMsgEl.querySelector('.typing');
-              if(typing) typing.remove();
-            }
           } catch(err){}
         });
 
+        // 每次接收到文本流片段
         es.addEventListener('delta', e => {
           try {
             const delta = JSON.parse(e.data || '{}').delta || '';
             if(delta) {
               rawAnswerText += delta;
+
+              // 关键点：一旦大模型开始输出答案，自动折叠顶部的"深度思考"面板，且移除三个圆点动画
+              const progress = botMsgEl.querySelector('details.think-box');
+              if(progress && progress.hasAttribute('open')) {
+                 progress.removeAttribute('open');
+              }
+              const typing = botMsgEl.querySelector('.typing');
+              if(typing) typing.remove();
+
+              // 将文字流式追加到下方的 answer 区块
               renderAnswerWithImages(answerEl, rawAnswerText, []);
               scrollToBottom();
             }
@@ -544,36 +589,27 @@
         });
 
         const handleFinal = (e) => {
-          const typing = botMsgEl.querySelector('.typing');
-          if(typing) typing.remove();
-          const progress = botMsgEl.querySelector('details.progress');
-          if(progress) progress.removeAttribute('open');
-
           try {
             const d = JSON.parse(e.data || '{}');
             const finalText = (d && d.answer && d.answer.trim().length > 0) ? d.answer : (rawAnswerText || answerEl.textContent || '');
-            renderAnswerWithImages(answerEl, finalText, d.image_urls || []);
+            finalizeBotAnswer(botMsgEl, finalText, null, d.image_urls || []);
           } catch(err){}
           es.close(); sendBtn.disabled = false;
         };
 
         es.addEventListener('final', handleFinal);
         es.addEventListener('final_answer', handleFinal);
+
         es.addEventListener('error', e => {
-          const typing = botMsgEl.querySelector('.typing');
-          if(typing) typing.remove();
           try {
             const msg = e.data ? JSON.parse(e.data).error : '连接中断';
             rawAnswerText += `\n\n（错误：${msg}）`;
-            renderAnswerWithImages(answerEl, rawAnswerText, []);
+            finalizeBotAnswer(botMsgEl, rawAnswerText, null, []);
           } catch(err){}
           es.close(); sendBtn.disabled = false;
         });
       } catch(e) {
-        const bubble = botMsgEl.querySelector('.bubble');
-        const typing = botMsgEl.querySelector('.typing');
-        if(typing) typing.remove();
-        bubble.innerHTML = `请求失败：${escapeHtml(e.message || e)}`;
+        finalizeBotAnswer(botMsgEl, '', escapeHtml(e.message || e), []);
         sendBtn.disabled = false;
       }
     }

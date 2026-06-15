@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 
 from knowledge.processor.import_process.main_graph import import_graph_app
-from knowledge.upload.utils.paths import get_local_base_dir
-from knowledge.upload.service.task_service import TaskService
+from knowledge.core.paths import get_local_base_dir
+from knowledge.service.task_service import TaskService
 
 load_dotenv()
 import os.path
@@ -146,6 +146,8 @@ class ImportFileService:
             for event in import_graph_app.stream(global_graph_init_status):
                 for key, value in event.items():
                     print(f"[{task_id}] Completed Node: {key}")
+                    # 【核心修复】将完成的节点通知给任务管理器，这样前端才能收到进度
+                    self._task_service.mark_node_done(task_id, key)
 
             # 4. 标记任务完成
             self._task_service.update_task_status(task_id, "completed")

@@ -1,8 +1,9 @@
 from functools import lru_cache
-from knowledge.upload.service.import_file_service import ImportFileService
-from knowledge.upload.service.task_service import TaskService
-from knowledge.upload.service.query_service import QueryService
 
+# 统一使用正确的 service 路径，去掉历史残留的 upload.
+from knowledge.service.import_file_service import ImportFileService
+from knowledge.service.task_service import TaskService
+from knowledge.service.query_service import QueryService
 
 @lru_cache
 def get_task_service() -> TaskService:
